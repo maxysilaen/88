@@ -1,0 +1,203 @@
+import requests
+
+#Register
+--Trial 1--
+url = "http://localhost:8000/api/accounts/register/"
+payload = {"username":"doggy",
+            "email":"doggy@style.com",
+            "email2":"doggy@style.com",
+            "password":"12345"}
+r = requests.post(url, data=payload)
+r.json()
+{u'username': u'doggy', u'email2': u'doggy@style.com', u'email': u'doggy@style.com'}
+
+
+
+
+#Login
+url = "http://localhost:8000/api/accounts/login/"
+payload = {"username":"doggy", "password":"12345"}
+r = requests.post(url, data=payload)
+r.json()
+
+{u'token': u'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE0ODQ4ODZ9.O0_XprALyq_Y9RXai-1gdtw5K5zDFDS8FIbq-Pkf5gQ'}
+
+
+
+
+#ListTask
+url = "http://localhost:8000/api/tasks/task-list/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE0ODQ4ODZ9.O0_XprALyq_Y9RXai-1gdtw5K5zDFDS8FIbq-Pkf5gQ'}
+r = requests.get(url, headers=headers)
+r.text
+
+u'[{"name_task":"main musik","description":"piano","created_by":"doggy","created_at":"2017-11-24T00:51:35.322047Z","updated_at":"2017-11-24T00:51:35.322097Z"},{"name_task":"belajar","description":"baca buku python","created_by":"doggy","created_at":"2017-11-24T00:51:24.563924Z","updated_at":"2017-11-24T00:51:24.563962Z"}]'
+
+#CreateBulktask
+url = 'http://localhost:8000/api/tasks/task-create/'
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE0ODQ4ODZ9.O0_XprALyq_Y9RXai-1gdtw5K5zDFDS8FIbq-Pkf5gQ'}
+payload = {'name_task':'nyuci', 'description':'nyuci_baju', 'created_by':7}
+r = requests.post(url, data=payload, headers=headers)
+
+{u'detail': u'Signature has expired.'}
+
+
+
+url = "http://localhost:8000/api/accounts/login/"
+payload = {"username":"doggy", "password":"12345"}
+r = requests.post(url, data=payload)
+r.json()
+{u'token': u'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE0ODc5NTZ9.95EiGsx96uzS7FY_ZfdfQ7OYpc7mMIsl4FpORU3YzNM'}
+
+
+url = "http://localhost:8000/api/tasks/task-create/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE0OTcyMTl9.KN6zisu_V9qrXIWYKfz9FlMXMO6lCiLORY3QNeBtvCo'}
+payload = {'name_task':'gosok', 'description':'gosok_baju', 'created_by':7}
+r = requests.post(url, data=payload, headers=headers)
+r.text
+u'{"name_task":"gosok","description":"gosok_baju","created_by":7}'
+
+#PUT Tasks
+url = "http://localhost:8000/api/tasks/task-detail/1/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MTA3NjN9.8TOPrGlAXZa106FVLZKa90Yq0Jq5deE1HfbivxogKxA'}
+payload = {"description":"Update task"}
+r = requests.put(url, data=payload, headers=headers)
+r.text
+
+u'{"detail":"You must be the owner of this object."}'
+
+url = "http://localhost:8000/api/tasks/task-detail/6/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MTEzNDZ9.oBG_6ALT2zqSNH5Bfd4eUmNb0j-yh3WEnoEC7C7I-Ug'}
+payload = {"name_task":"update name", "description":"Update task"}
+r = requests.put(url, data=payload, headers=headers)
+r.text
+u'{"name_task":"update name","description":"Update task"}'
+
+
+#DELETE Task
+url = "http://localhost:8000/api/tasks/task-detail/1/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MTEzNDZ9.oBG_6ALT2zqSNH5Bfd4eUmNb0j-yh3WEnoEC7C7I-Ug'}
+r = requests.delete(url, headers=headers)
+r.text
+u'{"detail":"You must be the owner of this object."}'
+
+
+url = "http://localhost:8000/api/tasks/task-detail/6/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MTEzNDZ9.oBG_6ALT2zqSNH5Bfd4eUmNb0j-yh3WEnoEC7C7I-Ug'}
+r = requests.delete(url, headers=headers)
+r.text
+u''
+
+
+url = "http://localhost:8000/api/accounts/user-list/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MTU3NDd9.2_3kp9F0GTWDhC602oSbIwhN5GpFakKSKq2c-an_2Og'}
+r = requests.get(url, headers=headers)
+r.text
+
+
+#User
+url = "http://localhost:8000/api/accounts/user-list/"
+headers = {'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZ2d5IiwidXNlcl9pZCI6NywiZW1haWwiOiJkb2dneUBzdHlsZS5jb20iLCJleHAiOjE1MTE1MjM1ODh9.Nohnt1LUrLbQEzvMZ3WwhEV5pOwFSgE-7cutzyxKCQk'}
+r = requests.get(url, headers=headers)
+r.json()
+
+[
+  {
+    u'username':u'maya',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/1/',
+    u'email':u'mayakristi@gmail.com'
+  },
+  {
+    u'username':u'maxysilaen',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+      {
+        u'created_at':        u'2017-11-23T10:15:43.588889        Z',
+        u'name_task':u'Bakar',
+        u'description':u'Bakar Makanan',
+        u'created_by':u'maxysilaen',
+        u'updated_at':        u'2017-11-23T10:15:43.588918        Z'
+      },
+      {
+        u'created_at':        u'2017-11-23T10:16:16.711561        Z',
+        u'name_task':u'Goreng',
+        u'description':u'Goreng Ayam',
+        u'created_by':u'maxysilaen',
+        u'updated_at':        u'2017-11-23T10:16:16.711586        Z'
+      }
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/2/',
+    u'email':u'maxy.silaen@yahoo.co.id'
+  },
+  {
+    u'username':u'bayu',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/3/',
+    u'email':u'bayu.setiahartono@lazada.co.id'
+  },
+  {
+    u'username':u'doggy',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+      {
+        u'created_at':        u'2017-11-24T00:51:24.563924        Z',
+        u'name_task':u'belajar',
+        u'description':u'baca buku python',
+        u'created_by':u'doggy',
+        u'updated_at':        u'2017-11-24T00:51:24.563962        Z'
+      },
+      {
+        u'created_at':        u'2017-11-24T00:51:35.322047        Z',
+        u'name_task':u'main musik',
+        u'description':u'piano',
+        u'created_by':u'doggy',
+        u'updated_at':        u'2017-11-24T00:51:35.322097        Z'
+      },
+      {
+        u'created_at':        u'2017-11-24T04:16:28.052381        Z',
+        u'name_task':u'gosok',
+        u'description':u'gosok_baju',
+        u'created_by':u'doggy',
+        u'updated_at':        u'2017-11-24T04:16:28.052418        Z'
+      }
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/7/',
+    u'email':u'doggy@style.com'
+  },
+  {
+    u'username':u'viral',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/8/',
+    u'email':u'venacava1207@hotmail.com'
+  },
+  {
+    u'username':u'newmember',
+    u'first_name':u'',
+    u'last_name':u'',
+    u'taskslist_set':[
+
+    ],
+    u'url':    u'http:    //localhost:8000    /api/accounts/user-detail/9/',
+    u'email':u'new@yahoo.co.id'
+  }
+]
+
+
+
+
+
